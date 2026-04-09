@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Renumerador de Recibos</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --primary:#2563eb;
+      --primary-hover:#1d4ed8;
+      --accent:#eff6ff;
+      --success:#065f46;
+      --danger:#991b1b;
+      --shadow:0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, #eef4ff 0%, transparent 35%),
+        radial-gradient(circle at top right, #f8fbff 0%, transparent 30%),
+        var(--bg);
+      color:var(--text);
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px 18px;
+    }
+
+    .card{
+      width:100%;
+      max-width:760px;
+      background:var(--card);
+      border:1px solid rgba(229,231,235,0.95);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding:32px 32px 14px 32px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--accent);
+      color:var(--primary);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      margin-bottom:16px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:32px;
+      line-height:1.15;
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      max-width:620px;
+    }
+
+    .content{
+      padding:28px 32px 32px 32px;
+    }
+
+    .flash{
+      border:1px solid #fecaca;
+      background:#fef2f2;
+      color:var(--danger);
+      border-radius:14px;
+      padding:14px 16px;
+      margin-bottom:18px;
+      font-size:14px;
+    }
+
+    .dropzone{
+      position:relative;
+      border:1.5px dashed #c7d2fe;
+      background:#fafcff;
+      border-radius:18px;
+      padding:28px 22px;
+      text-align:center;
+      transition:.2s ease;
+      margin-bottom:18px;
+    }
+
+    .dropzone:hover{
+      border-color:#93c5fd;
+      background:#f7fbff;
+    }
+
+    .dropzone input[type=file]{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      cursor:pointer;
+      width:100%;
+      height:100%;
+    }
+
+    .drop-title{
+      font-size:18px;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .drop-text{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      margin:0 auto 10px auto;
+      max-width:560px;
+    }
+
+    .file-pill{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-size:13px;
+      font-weight:700;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin:20px 0 24px 0;
+    }
+
+    .info{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background:#fff;
+    }
+
+    .info strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:14px;
+    }
+
+    .info span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .note{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    button{
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      padding:14px 22px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+      box-shadow:0 6px 18px rgba(37,99,235,0.18);
+    }
+
+    button:hover{
+      background:var(--primary-hover);
+      transform:translateY(-1px);
+    }
+
+    .footer{
+      padding:18px 32px 28px 32px;
+      border-top:1px solid var(--line);
+      background:#fcfdff;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    @media (max-width: 680px){
+      .hero, .content, .footer{padding-left:20px;padding-right:20px}
+      h1{font-size:26px}
+      .grid{grid-template-columns:1fr}
+      .actions{align-items:stretch}
+      button{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="hero">
+        <div class="badge">Sistema interno</div>
+        <h1>Renumerador de Recibos</h1>
+        <p class="subtitle">
+          Envie um arquivo Word ou um arquivo ZIP com vários recibos. O sistema identifica o último número de cada arquivo,
+          continua a sequência automaticamente e devolve os documentos prontos para uso.
+        </p>
+      </div>
+
+      <div class="content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="post" enctype="multipart/form-data">
+          <label class="dropzone">
+            <input type="file" name="arquivo" id="arquivo" accept=".docx,.zip" required>
+            <div class="drop-title">Selecione o arquivo para processar</div>
+            <p class="drop-text">
+              Aceita <strong>.docx</strong> para um único recibo ou <strong>.zip</strong> para processar vários arquivos de uma vez.
+            </p>
+            <div class="file-pill" id="fileName">Nenhum arquivo selecionado</div>
+          </label>
+
+          <div class="grid">
+            <div class="info">
+              <strong>Numeração automática</strong>
+              <span>Localiza “NOTA DE BALCÃO”, preserva zeros à esquerda e continua a sequência no próprio arquivo.</span>
+            </div>
+            <div class="info">
+              <strong>Mesmo layout</strong>
+              <span>O sistema altera somente a numeração dos recibos, mantendo a estrutura original do documento.</span>
+            </div>
+            <div class="info">
+              <strong>Retorno imediato</strong>
+              <span>Para um arquivo, o retorno já vem em Word. Para vários, o resultado é entregue em ZIP com relatório.</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <div class="note">
+              Dica: para processar várias empresas de uma vez, compacte os arquivos em ZIP antes de enviar.
+            </div>
+            <button type="submit">Processar arquivos</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="footer">
+        O arquivo de saída mantém o mesmo nome do original. Em uploads múltiplos, o resultado vem acompanhado de um relatório simples de processamento.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('arquivo');
+    const fileName = document.getElementById('fileName');
+
+    input.addEventListener('change', function () {
+      if (this.files && this.files.length > 0) {
+        fileName.textContent = this.files[0].name;
+      } else {
+        fileName.textContent = 'Nenhum arquivo selecionado';
+      }
+    });
+  </script>
+</body>
+</html>
